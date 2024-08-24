@@ -1,6 +1,10 @@
-# RRT* with Reflected Inertia Optimization
+# RRT* with Reflected Inertia (RI) Optimization
+
 
 <img src="robot_animation1.gif" width="500" height="500">
+
+### Figure 1. UR5 path with RI Maximization in the goal direction
+
 
 ## Overview
 

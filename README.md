@@ -1,6 +1,6 @@
 # RRT* with Reflected Inertia Optimization
 
-<img src="robot_animation1.gif" width="300" height="300">
+<img src="robot_animation1.gif" width="500" height="500">
 
 ## Overview
 

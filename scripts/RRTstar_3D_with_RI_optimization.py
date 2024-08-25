@@ -122,7 +122,7 @@ class RRTStar:
         gain,
         verbose,
         max_iter=10000,
-        step_size=0.1,
+        step_size=0.05,
         step_size_ori=0.5,
         search_radius=1.0,
     ):
@@ -151,7 +151,7 @@ class RRTStar:
         self.step_size_ori = step_size_ori
         self.search_radius = search_radius
         self.tree = [self.start]
-        self._beta = 0.5
+        self._beta = 0.6
         self.kd_tree = cKDTree([self.start.position])  # K-Dimensional Tree to search for nearest neighboors
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(111, projection="3d")
@@ -281,12 +281,11 @@ class RRTStar:
 
             curr_tcp_position = H_0T.translation
             err = target_position - curr_tcp_position
-            k_err = self.K * err
 
             v = (curr_tcp_position - self.goal.position) / np.linalg.norm(curr_tcp_position - self.goal.position)
             rm_grad = self.rm_K * self.rm_solver.compute_gradient(q, v)
-            q_vel = J_star @ k_err + (np.eye(n_dof) - J_star @ J) @ rm_grad
-            q_new = q + self.dt * q_vel
+            delta_q = J_star @ err + (np.eye(n_dof) - J_star @ J) @ rm_grad
+            q_new = q + delta_q
             if np.linalg.norm(err) > 0.05:
 
                 q = q_new
@@ -609,7 +608,7 @@ def run_experiment(exp_id: str, num_trials: float, robot_type: str, gain: float,
 
 
 if __name__ == "__main__":
-    someDictionary = run_experiment(1, 1, "ur5", 1e-1, verbose=True)
+    someDictionary = run_experiment(1, 1, "ur5", 2e-2, verbose=True)
     import ipdb
 
     ipdb.set_trace()
